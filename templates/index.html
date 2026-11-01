@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Resume Shortlisting Tool</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Resume Shortlisting Tool</h1>
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+      <label>Job Title</label>
+      <input type="text" name="job_title" required placeholder="e.g. Python Developer">
+
+      <label>Job Description</label>
+      <textarea name="job_description" rows="8" required
+        placeholder="e.g. We need a developer with 2+ years experience in Python, Flask, SQL and Git."></textarea>
+
+      <label>Resumes (PDF / DOCX, select multiple)</label>
+      <input type="file" name="resumes" accept=".pdf,.docx" multiple required>
+
+      <button type="submit">Shortlist Candidates</button>
+    </form>
+  </div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Results - {{ job.title }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container wide">
+    <h1>Shortlist: {{ job.title }}</h1>
+    <p>Required skills: <b>{{ job.required_skills or "none detected" }}</b> |
+       Min experience: <b>{{ job.min_experience }}</b> yrs</p>
+
+    <form method="get" class="inline">
+      Show top <input type="number" name="top" value="{{ top_n }}" min="1" style="width:70px">
+      <button type="submit">Apply</button>
+      <a class="btn" href="{{ url_for('export', job_id=job.job_id, top=top_n) }}">Download CSV</a>
+      <a class="btn" href="/">New Job</a>
+    </form>
+
+    {% if rows %}
+    <table>
+      <tr><th>Rank</th><th>Name</th><th>Email</th><th>Phone</th><th>Exp</th><th>Score</th><th></th></tr>
+      {% for r in rows[:top_n] %}
+      <tr>
+        <td>{{ r.rank_position }}</td>
+        <td>{{ r.name }}</td>
+        <td>{{ r.email }}</td>
+        <td>{{ r.phone }}</td>
+        <td>{{ r.experience_years }}</td>
+        <td><b>{{ r.match_score }}</b></td>
+        <td><button onclick="showDetails({{ r.candidate_id }})">Details</button></td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% else %}
+    <p>No valid resumes were processed.</p>
+    {% endif %}
+
+    <div id="details" class="details" style="display:none"></div>
+  </div>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
